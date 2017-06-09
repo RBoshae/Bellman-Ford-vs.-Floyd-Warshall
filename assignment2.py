@@ -21,7 +21,8 @@ def BellmanFord(G):
     for vertex in vertices:
         pathPairs.append(BellmanFordInstance(G,vertex))
     #print(pathPairs)
-
+    print("Bellman-Ford")
+    print(pathPairs)
     # The pathPairs list will contain the list of vertex pairs and their weights [((s,t),w),...]
     return pathPairs
 
@@ -55,10 +56,41 @@ def FloydWarshall(G):
 
     # The pathPairs list will contain the list of vertex pairs and their weights [((s,t),w),...]t
     pathPairs=[]
+    D=[]
+    D=(edges)
+    #print("Prinint contents of D")
+    #print(D)
+    print("Print contents of D")
+    print(D)
+    #print("Prinint contents of D[0]")
+    #print(D[0])
+    #print("Prinint contents of D[0][0]")
+    #print(D[0][0])
 
+    #print(float(D[0][0][0])) #Debugging
     # Fill in your Floyd-Warshall algorithm here
+    for diagnol in range(len(vertices)):
+        D[diagnol][diagnol] = 0;
+
+    for k in range(len(vertices)):
+        for i in range(len(vertices)):
+            for j in range(1,len(vertices)):
+                if float(D[i][j]) > float(D[i][k]) + float(D[k][j]):
+                    D[i][j] = float(D[i][k]) + float(D[k][j])
+                #D[0].append(k)
+                #D.append([k-1][edges])
+                #if D[k][][]
+                #    D.append(D[k-1][i][j] = (D[k-1][j][i] + D[k-1][i][k]))
+                #    D.append(D[k-1][i][j])
+                #D.append(minD)
+                #print(D)
     # The pathPairs list will contain the list of vertex pairs and their weights [((s,t),w),...]t
-    return pathPairs
+    for row in range(len(vertices)):
+        for col in range(len(vertices)):
+            pathPairs.append(((row,col),D[row][col]))
+    print("FLOYD WARSHALL")
+    print(pathPairs)
+    return (pathPairs)
 
 def readFile(filename):
     global vertices
@@ -110,8 +142,8 @@ def main(filename,algorithm):
         BellmanFord(G)
         end=time.clock()
         BFTime=end-start
-        FloydWarshall(G)
         start=time.clock()
+        FloydWarshall(G)
         end=time.clock()
         FWTime=end-start
         print("Bellman-Ford timing: "+str(BFTime))
